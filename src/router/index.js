@@ -13,6 +13,8 @@ import ArticalList from "@/views/artical/list.vue";
 import ArticalForm from "@/views/artical/modules/articalForm.vue";
 import ArticalDetail from "@/views/artical/modules/articalDetail.vue";
 import BaseSetting from "@/views/setting/index.vue";
+import Banner from "@/views/setting/banner.vue";
+import BannerForm from "@/views/setting/modules/bannerForm.vue";
 
 const baseRoutes = [
   {
@@ -128,6 +130,22 @@ const routeList = [
         component: BaseSetting,
         meta: {
           title: "菜单分类",
+          needLogin: true,
+        },
+      },
+      {
+        path: "/banner",
+        component: Banner,
+        meta: {
+          title: "banner图",
+          needLogin: true,
+        },
+      },
+      {
+        path: "/banner/form",
+        component: BannerForm,
+        meta: {
+          title: "编辑banner图",
           needLogin: true,
         },
       },

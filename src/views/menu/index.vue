@@ -37,6 +37,11 @@
           <el-switch disabled v-model="scope.row.showInNav" />
         </template>
       </el-table-column>
+      <el-table-column label="前端路由">
+        <template #default="scope">
+          <el-switch disabled v-model="scope.row.isFront" />
+        </template>
+      </el-table-column>
       <el-table-column prop="action" label="操作" width="180">
         <template #default="scoped">
           <el-button link type="primary" @click="toForm(scoped.row)">

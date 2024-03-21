@@ -4,6 +4,7 @@
       <el-upload
         class="avatar-uploader"
         :action="action"
+        :headers="headers"
         :show-file-list="false"
         :on-success="handleBgSuccess"
       >
@@ -17,6 +18,7 @@
       <el-upload
         class="avatar-uploader"
         :action="action"
+        :headers="headers"
         :show-file-list="false"
         :on-success="handleLogoSuccess"
       >
@@ -46,6 +48,10 @@ const logoUrl = store.state.setting.setting.logoUrl;
 const action =
   (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
   "/upload";
+const headers = {
+  Authorization: "Bearer " + store.state.user.token,
+};
+
 const loading = ref(false);
 
 const form = reactive({

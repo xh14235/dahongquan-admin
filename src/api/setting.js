@@ -3,6 +3,9 @@ import request from "@/utils/request";
 const api = {
   editSetting: "editSetting",
   baseSetting: "baseSetting",
+  addBanner: "addBanner",
+  bannerList: "bannerList",
+  deleteBanner: "deleteBanner",
 };
 
 export const baseSetting = (params) => {
@@ -18,5 +21,29 @@ export const editSetting = (data) => {
     url: api.editSetting,
     method: "POST",
     data,
+  });
+};
+
+export const bannerList = (params) => {
+  return request({
+    url: api.bannerList,
+    method: "GET",
+    params,
+  });
+};
+
+export const addBanner = (data) => {
+  return request({
+    url: api.addBanner,
+    method: "POST",
+    data,
+  });
+};
+
+export const deleteBanner = (params) => {
+  return request({
+    url: api.deleteBanner,
+    method: "DELETE",
+    params,
   });
 };

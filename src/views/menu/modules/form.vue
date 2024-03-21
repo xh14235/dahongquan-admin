@@ -54,6 +54,9 @@
     <el-form-item label="在导航显示" prop="showInNav">
       <el-switch v-model="form.showInNav" />
     </el-form-item>
+    <el-form-item label="前端路由" prop="isFront">
+      <el-switch v-model="form.isFront" />
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSubmit" :loading="loading">
         确认
@@ -84,6 +87,7 @@ const form = reactive({
   needLogin: true,
   isKeep: false,
   showInNav: true,
+  isFront: false,
 });
 const rules = computed(() => {
   return {
@@ -153,6 +157,7 @@ const getDetails = () => {
       form.needLogin = res.needLogin;
       form.isKeep = res.isKeep;
       form.showInNav = res.showInNav;
+      form.isFront = res.isFront;
     })
     .catch((err) => {
       console.log(err);
