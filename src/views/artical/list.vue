@@ -27,6 +27,7 @@
 
   <el-table :data="articalList" style="width: 100%">
     <el-table-column prop="title" label="文章标题" />
+    <el-table-column prop="code" label="文章编码" />
     <el-table-column label="文章分类">
       <template #default="scope">
         {{ getCategoryName(scope.row.category) }}

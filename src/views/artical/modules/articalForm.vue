@@ -9,6 +9,9 @@
     <el-form-item label="文章标题" prop="title">
       <el-input v-model="form.title" placeholder="请输入文章标题" />
     </el-form-item>
+    <el-form-item label="文章编码" prop="code">
+      <el-input v-model="form.code" placeholder="请输入文章编码" />
+    </el-form-item>
     <el-form-item label="文章分类" prop="category">
       <el-select v-model="form.category" placeholder="请选择文章分类">
         <el-option
@@ -73,6 +76,7 @@ const editId = ref("");
 
 const form = reactive({
   title: "",
+  code: "",
   category: "",
   desc: "",
   content: "",
@@ -80,6 +84,7 @@ const form = reactive({
 const rules = computed(() => {
   return {
     title: [{ required: true, message: "请输入文章名称", trigger: "blur" }],
+    code: [{ required: true, message: "请输入文章编码", trigger: "blur" }],
     category: [{ required: true, message: "请输入文章分类", trigger: "blur" }],
     desc: [{ required: true, message: "请输入文章简介", trigger: "blur" }],
     content: [{ required: true, message: "请输入文章内容", trigger: "blur" }],
@@ -132,6 +137,7 @@ const getDetails = () => {
   articalInfo({ id: editId.value })
     .then((res) => {
       form.title = res.title;
+      form.code = res.code;
       form.category = res.category;
       form.desc = res.desc;
       form.content = res.content;
