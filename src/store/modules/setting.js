@@ -2,7 +2,7 @@ const defaultSetting = localStorage.getItem("baseSetting")
   ? JSON.parse(localStorage.getItem("baseSetting"))
   : {
       bgUrl: "/img/bg.jpg",
-      logo: "/img/logo.jpg",
+      logo: "/img/logo.png",
     };
 
 export default {
