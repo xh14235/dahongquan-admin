@@ -6,8 +6,12 @@ import "@/assets/style/tailwind.css";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import { resizeWindow } from "@/utils/window";
+import moment from "moment";
 
 const app = createApp(App);
+
+app.config.globalProperties.$moment = moment;
+
 app.use(ElementPlus);
 app.use(store).use(router);
 

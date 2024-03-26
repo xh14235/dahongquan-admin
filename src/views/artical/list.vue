@@ -34,6 +34,11 @@
       </template>
     </el-table-column>
     <el-table-column prop="desc" label="文章简介" />
+    <el-table-column label="更新时间">
+      <template #default="scope">
+        {{ $moment(scope.row.time).format("YYYY:MM:DD HH:mm:ss") }}
+      </template>
+    </el-table-column>
     <el-table-column prop="action" label="操作" width="180">
       <template #default="scoped">
         <el-button link type="primary" @click="toDetail(scoped.row)">

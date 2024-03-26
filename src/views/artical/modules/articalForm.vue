@@ -6,12 +6,6 @@
     status-icon
     label-width="auto"
   >
-    <el-form-item label="文章标题" prop="title">
-      <el-input v-model="form.title" placeholder="请输入文章标题" />
-    </el-form-item>
-    <el-form-item label="文章编码" prop="code">
-      <el-input v-model="form.code" placeholder="请输入文章编码" />
-    </el-form-item>
     <el-form-item label="文章分类" prop="category">
       <el-select v-model="form.category" placeholder="请选择文章分类">
         <el-option
@@ -22,6 +16,12 @@
         />
       </el-select>
     </el-form-item>
+    <el-form-item label="文章标题" prop="title">
+      <el-input v-model="form.title" placeholder="请输入文章标题" />
+    </el-form-item>
+    <el-form-item label="文章编码" prop="code">
+      <el-input v-model="form.code" placeholder="请输入文章编码" />
+    </el-form-item>
     <el-form-item label="文章简介" prop="desc">
       <el-input
         v-model="form.desc"
@@ -30,12 +30,14 @@
         type="textarea"
       />
     </el-form-item>
+    <el-form-item label="更新时间" prop="time">
+      <el-date-picker
+        v-model="form.time"
+        type="datetime"
+        placeholder="请选择更新时间"
+      />
+    </el-form-item>
     <el-form-item label="详细内容" prop="content">
-      <!-- <ckeditor
-        :editor="editor"
-        v-model="form.content"
-        :config="editorConfig"
-      /> -->
       <Tinymce v-model="form.content" @change="handleChange" width="100%" />
     </el-form-item>
     <el-form-item>
@@ -58,21 +60,11 @@ import {
   editArtical,
   categoryList as categoryApi,
 } from "@/api/artical.js";
-// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const route = useRoute();
 const router = useRouter();
 const baseForm = ref(null);
 let loading = ref(false);
 const editId = ref("");
-
-// const editor = ClassicEditor;
-// const editorConfig = {
-//   image: {
-//     uploadUrl:
-//       (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
-//       "/upload",
-//   },
-// };
 
 const form = reactive({
   title: "",
@@ -80,11 +72,18 @@ const form = reactive({
   category: "",
   desc: "",
   content: "",
+  time: new Date(),
 });
 const rules = computed(() => {
   return {
     title: [{ required: true, message: "请输入文章名称", trigger: "blur" }],
-    code: [{ required: true, message: "请输入文章编码", trigger: "blur" }],
+    code: [
+      {
+        required: form.category === "intro",
+        message: "请输入文章编码",
+        trigger: "blur",
+      },
+    ],
     category: [{ required: true, message: "请输入文章分类", trigger: "blur" }],
     desc: [{ required: true, message: "请输入文章简介", trigger: "blur" }],
     content: [{ required: true, message: "请输入文章内容", trigger: "blur" }],
@@ -138,6 +137,7 @@ const getDetails = () => {
     .then((res) => {
       form.title = res.title;
       form.code = res.code;
+      form.time = res.time || new Date();
       form.category = res.category;
       form.desc = res.desc;
       form.content = res.content;

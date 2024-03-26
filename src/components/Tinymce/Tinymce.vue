@@ -1,10 +1,6 @@
 <template>
   <div class="prefixCls" :style="{ width: containerWidth }">
-    <textarea
-      :id="tinymceId"
-      ref="elRef"
-      :style="{ visibility: 'hidden' }"
-    ></textarea>
+    <textarea :id="tinymceId" ref="elRef" :style="{ visibility: 'hidden' }" />
   </div>
 </template>
 
@@ -33,7 +29,7 @@ import "tinymce/plugins/preview";
 import "tinymce/plugins/print";
 import "tinymce/plugins/save";
 import "tinymce/plugins/searchreplace";
-import "tinymce/plugins/spellchecker";
+// import "tinymce/plugins/spellchecker";
 import "tinymce/plugins/tabfocus";
 import "tinymce/plugins/template";
 import "tinymce/plugins/textpattern";
@@ -64,6 +60,18 @@ import {
 } from "@/utils/tinymce";
 import axios from "axios";
 import store from "@/store";
+
+const axiosUrl =
+  (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
+  "/upload";
+const imgUrl =
+  process.env.VUE_APP_BASE_IMG_URL || "http://localhost:3000/uploads/";
+const config = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Authorization: "Bearer " + store.state.user.token,
+  },
+};
 
 const props = defineProps({
   options: {
@@ -155,17 +163,6 @@ const initOptions = computed(() => {
       } else {
         let params = new FormData();
         params.append("file", blobInfo.blob());
-        let config = {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + store.state.user.token,
-          },
-        };
-        const axiosUrl =
-          (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
-          "/upload";
-        const imgUrl =
-          process.env.VUE_APP_BASE_IMG_URL || "http://localhost:3000/uploads/";
         axios
           .post(axiosUrl, params, config)
           .then((res) => {
@@ -178,6 +175,33 @@ const initOptions = computed(() => {
           .catch(() => {
             failure("上传出错，网络问题");
           });
+      }
+    },
+    file_picker_types: "media",
+    file_picker_callback: (cb, value, meta) => {
+      //当点击media图标上传时,判断meta.filetype == 'media'有必要，因为file_picker_callback是media(媒体)、image(图片)、file(文件)的共同入口
+      if (["media", "file"].includes(meta.filetype)) {
+        //创建一个隐藏的type=file的文件选择input
+        let input = document.createElement("input");
+        input.setAttribute("type", "file");
+        input.onchange = function () {
+          let file = this.files[0]; //只选取第一个文件。如果要选取全部，后面注意做修改
+          let formData;
+          formData = new FormData();
+          formData.append("file", file);
+          axios
+            .post(axiosUrl, formData, config)
+            .then((res) => {
+              if (res.data && res.data.location) {
+                cb(imgUrl + res.data.location);
+              }
+            })
+            .catch(() => {
+              console.log("上传出错，网络问题");
+            });
+        };
+        //触发点击
+        input.click();
       }
     },
   };
