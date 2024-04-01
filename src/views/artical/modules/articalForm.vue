@@ -22,6 +22,20 @@
     <el-form-item label="文章编码" prop="code">
       <el-input v-model="form.code" placeholder="请输入文章编码" />
     </el-form-item>
+    <el-form-item label="banner图" prop="imgUrl">
+      <el-upload
+        class="avatar-uploader"
+        :action="action"
+        :headers="headers"
+        :show-file-list="false"
+        :on-success="handleSuccess"
+      >
+        <img v-if="form.imgUrl" :src="form.imgUrl" class="avatar" />
+        <el-icon v-else class="avatar-uploader-icon">
+          <i class="iconfont x-icon-custom-user"></i>
+        </el-icon>
+      </el-upload>
+    </el-form-item>
     <el-form-item label="文章简介" prop="desc">
       <el-input
         v-model="form.desc"
@@ -53,6 +67,7 @@
 import { ElMessage } from "element-plus";
 import Tinymce from "@/components/Tinymce/Tinymce.vue";
 import { reactive, ref, onMounted, computed } from "vue";
+import store from "@/store";
 import { useRouter, useRoute } from "vue-router";
 import {
   addArtical,
@@ -70,6 +85,7 @@ const form = reactive({
   title: "",
   code: "",
   category: "",
+  imgUrl: "",
   desc: "",
   content: "",
   time: new Date(),
@@ -89,6 +105,14 @@ const rules = computed(() => {
     content: [{ required: true, message: "请输入文章内容", trigger: "blur" }],
   };
 });
+
+const action =
+  (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
+  "/upload";
+
+const headers = {
+  Authorization: "Bearer " + store.state.user.token,
+};
 
 const categoryList = ref([]);
 const getCategoryList = () => {
@@ -145,6 +169,18 @@ const getDetails = () => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+const handleSuccess = (response, uploadFile) => {
+  if (response && response.url) {
+    ElMessage({
+      message: "缩略图上传成功！",
+      type: "success",
+    });
+    form.imgUrl =
+      (process.env.VUE_APP_BASE_IMG_URL || "http://127.0.0.1:3000/uploads/") +
+      response.url;
+  }
 };
 
 onMounted(() => {
