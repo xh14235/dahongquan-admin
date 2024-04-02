@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { bannerList, deleteBanner } from "@/api/setting.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";

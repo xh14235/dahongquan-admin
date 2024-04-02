@@ -22,7 +22,7 @@
     <el-form-item label="文章编码" prop="code">
       <el-input v-model="form.code" placeholder="请输入文章编码" />
     </el-form-item>
-    <el-form-item label="banner图" prop="imgUrl">
+    <el-form-item label="缩略图" prop="imgUrl">
       <el-upload
         class="avatar-uploader"
         :action="action"
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import Tinymce from "@/components/Tinymce/Tinymce.vue";
 import { reactive, ref, onMounted, computed } from "vue";
 import store from "@/store";

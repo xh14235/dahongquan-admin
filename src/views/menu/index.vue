@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { menuList, deleteMenu } from "@/api/menu.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";

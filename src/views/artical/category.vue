@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { categoryList, deleteCategory } from "@/api/artical.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
