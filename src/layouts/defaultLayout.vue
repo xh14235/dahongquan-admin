@@ -7,7 +7,7 @@
       <el-aside class="app-aside">
         <x-nav />
       </el-aside>
-      <el-main>
+      <el-main class="app-main">
         <router-view />
       </el-main>
     </el-container>
@@ -27,6 +27,10 @@ import XNav from "@/components/xNav.vue";
 }
 .app-aside {
   width: 300px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.app-main {
   height: calc(100vh - 60px);
   overflow-y: auto;
 }
