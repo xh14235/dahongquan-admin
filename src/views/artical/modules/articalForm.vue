@@ -165,6 +165,7 @@ const getDetails = () => {
       form.category = res.category;
       form.desc = res.desc;
       form.content = res.content;
+      form.imgUrl = res.imgUrl;
     })
     .catch((err) => {
       console.log(err);
