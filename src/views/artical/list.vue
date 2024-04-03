@@ -33,6 +33,11 @@
         {{ getCategoryName(scope.row.category) }}
       </template>
     </el-table-column>
+    <el-table-column label="缩略图">
+      <template #default="scope">
+        <img class="banner-img" :src="scope.row.imgUrl" />
+      </template>
+    </el-table-column>
     <el-table-column prop="desc" label="文章简介" />
     <el-table-column label="更新时间">
       <template #default="scope">
@@ -73,7 +78,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { reactive, ref } from "vue";
 import {
   articalList as listApi,
@@ -173,5 +178,8 @@ const handleCurrentChange = (val) => {
 .el-pagination {
   justify-content: flex-end;
   margin-top: 10px;
+}
+.banner-img {
+  height: 60px;
 }
 </style>

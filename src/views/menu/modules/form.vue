@@ -19,6 +19,9 @@
     <el-form-item label="菜单名称" prop="title">
       <el-input v-model="form.title" placeholder="请输入菜单名称" />
     </el-form-item>
+    <el-form-item label="菜单顺序" prop="order">
+      <el-input v-model="form.order" placeholder="请输入菜单顺序" />
+    </el-form-item>
     <el-form-item label="菜单路径" prop="path">
       <el-input v-model="form.path" placeholder="请输入菜单路径" />
     </el-form-item>
@@ -67,7 +70,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { addMenu, parentMenuList, menuInfo, editMenu } from "@/api/menu.js";
@@ -81,6 +84,7 @@ const editId = ref("");
 const form = reactive({
   parent: "",
   title: "",
+  order: "0",
   path: "",
   components: "",
   icon: "setting",
@@ -92,6 +96,7 @@ const form = reactive({
 const rules = computed(() => {
   return {
     title: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
+    order: [{ required: true, message: "请输入菜单顺序", trigger: "blur" }],
     path: [{ required: true, message: "请输入菜单路径", trigger: "blur" }],
     // components: form.parent
     //   ? [{ required: true, message: "请输入菜单组件", trigger: "blur" }]
@@ -110,17 +115,37 @@ const getParentList = () => {
   });
 };
 
+// const parentOrder = ref(null);
+// const changeParent = (value) => {
+//   parentList.value.forEach((item) => {
+//     if (item._id === value) {
+//       parentOrder.value = item.order;
+//     }
+//   });
+// };
+
 const handleSubmit = () => {
   baseForm.value.validate((valid) => {
     if (valid) {
       loading.value = true;
       const method = editId.value ? editMenu : addMenu;
+      let order;
+      if (form.parent) {
+        parentList.value.forEach((item) => {
+          if (item._id === form.parent) {
+            order = String(item.order) + "-" + String(form.order);
+          }
+        });
+      } else {
+        order = String(form.order);
+      }
       const params = {
         ...form,
         parent:
           parentList.value.find((item) => item._id === form.parent)?.title ||
           "",
         _id: editId.value || undefined,
+        order,
       };
       method(params)
         .then(() => {
@@ -152,12 +177,14 @@ const getDetails = () => {
         undefined;
       form.title = res.title;
       form.path = res.path;
+      // form.order = res.order;
       form.components = res.components;
       form.icon = res.icon;
       form.needLogin = res.needLogin;
       form.isKeep = res.isKeep;
       form.showInNav = res.showInNav;
       form.isFront = res.isFront;
+      form.order = form.parent ? res.order.split("-")[1] : res.order;
     })
     .catch((err) => {
       console.log(err);

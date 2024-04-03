@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { addBanner } from "@/api/setting.js";

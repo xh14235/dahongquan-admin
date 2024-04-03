@@ -9,7 +9,7 @@
       <el-table-column prop="path" label="路径" />
       <el-table-column label="描述">
         <template #default="scope">
-          {{ scope.row.components || "--" }}
+          {{ scope.row.desc || "--" }}
         </template>
       </el-table-column>
       <el-table-column label="缩略图">
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { bannerList, deleteBanner } from "@/api/setting.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";

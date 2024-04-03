@@ -29,7 +29,7 @@ import "tinymce/plugins/preview";
 import "tinymce/plugins/print";
 import "tinymce/plugins/save";
 import "tinymce/plugins/searchreplace";
-// import "tinymce/plugins/spellchecker";
+import "tinymce/plugins/spellchecker";
 import "tinymce/plugins/tabfocus";
 import "tinymce/plugins/template";
 import "tinymce/plugins/textpattern";

@@ -11,6 +11,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="title" label="菜单名称" />
+      <el-table-column prop="order" label="菜单顺序" />
       <el-table-column prop="path" label="菜单路径" />
       <el-table-column label="菜单组件">
         <template #default="scope">
@@ -65,7 +66,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 import { menuList, deleteMenu } from "@/api/menu.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -82,8 +83,15 @@ const getMenuList = () => {
   loading.value = true;
   menuList()
     .then((res) => {
+      let list = res.sort((a, b) => {
+        if (getOrderNum(a.order, 0) === getOrderNum(b.order, 0)) {
+          return getOrderNum(a.order, 1) - getOrderNum(b.order, 1);
+        } else {
+          return getOrderNum(a.order, 0) - getOrderNum(b.order, 0);
+        }
+      });
       menus.value = [];
-      menus.value.push(...res);
+      menus.value.push(...list);
       loading.value = false;
       store.commit({
         type: "menu/SET_MENU",
@@ -96,6 +104,16 @@ const getMenuList = () => {
     });
 };
 getMenuList();
+
+const getOrderNum = (str, num) => {
+  let order = 0;
+  if (str.includes("-")) {
+    order = str.split("-")[num];
+  } else {
+    order = Number(str);
+  }
+  return order;
+};
 
 const showConfirm = (id) => {
   dialogVisible.value = true;

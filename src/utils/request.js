@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "@/store";
 import router from "@/router";
-import { ElMessage } from "element-plus";
+// import { ElMessage } from "element-plus";
 
 const axiosRequest = ({ baseURL, timeout = 10000 }) => {
   const instance = axios.create({
