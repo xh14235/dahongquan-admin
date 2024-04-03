@@ -19,6 +19,9 @@
       </el-table-column>
       <el-table-column prop="action" label="操作" width="180">
         <template #default="scoped">
+          <el-button link type="primary" @click="toForm(scoped.row)">
+            编辑
+          </el-button>
           <el-button link @click="showConfirm(scoped.row._id)">删除</el-button>
         </template>
       </el-table-column>

@@ -47,12 +47,13 @@
 // import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted, watch, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { addBanner } from "@/api/setting.js";
+import { addBanner, editBanner, bannerInfo } from "@/api/setting.js";
 import store from "@/store";
 const route = useRoute();
 const router = useRouter();
 const baseForm = ref(null);
 let loading = ref(false);
+const editId = ref("");
 
 const form = reactive({
   title: "",
@@ -81,13 +82,15 @@ const handleSubmit = () => {
   baseForm.value.validate((valid) => {
     if (valid) {
       loading.value = true;
+      const method = editId.value ? editBanner : addBanner;
       const params = {
         ...form,
+        _id: editId.value || undefined,
       };
-      addBanner(params)
+      method(params)
         .then(() => {
           ElMessage({
-            message: "添加banner图成功！",
+            message: (editId.value ? "编辑" : "添加") + "banner图成功！",
             type: "success",
           });
           handleCancel();
@@ -117,6 +120,27 @@ const handleSuccess = (response, uploadFile) => {
       response.url;
   }
 };
+
+const getDetails = () => {
+  bannerInfo({ id: editId.value })
+    .then((res) => {
+      form.title = res.title;
+      form.path = res.path;
+      form.desc = res.desc;
+      form.imgUrl = res.imgUrl;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+onMounted(() => {
+  const { id } = route.query;
+  if (id) {
+    editId.value = id;
+    getDetails();
+  }
+});
 </script>
 
 <style lang="less" scoped>

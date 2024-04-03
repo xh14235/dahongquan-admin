@@ -28,6 +28,26 @@
         </el-icon>
       </el-upload>
     </el-form-item>
+    <el-form-item label="首页视频">
+      <el-input
+        style="width: 50%"
+        v-model="form.homeVideo"
+        placeholder="请上传首页视频"
+      />
+      <el-upload
+        ref="upload"
+        :action="action"
+        :headers="headers"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :show-file-list="false"
+        :on-success="handleVideoSuccess"
+      >
+        <template #trigger>
+          <el-button type="primary">上传视频</el-button>
+        </template>
+      </el-upload>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" :loading="loading" @click="handleSubmit">
         确认
@@ -44,6 +64,7 @@ import { useStore } from "vuex";
 const store = useStore();
 const bgUrl = store.state.setting.setting.bgUrl;
 const logoUrl = store.state.setting.setting.logoUrl;
+const homeVideo = store.state.setting.setting.homeVideo;
 
 const action =
   (process.env.VUE_APP_BASE_API || "http://127.0.0.1:3000/admin/api") +
@@ -57,6 +78,7 @@ const loading = ref(false);
 const form = reactive({
   bgUrl: "" || bgUrl,
   logoUrl: "" || logoUrl,
+  homeVideo: "" || homeVideo,
 });
 
 const handleSubmit = () => {
@@ -97,6 +119,19 @@ const handleLogoSuccess = (response, uploadFile) => {
       type: "success",
     });
     form.logoUrl =
+      (process.env.VUE_APP_BASE_IMG_URL || "http://127.0.0.1:3000/uploads/") +
+      response.url;
+  }
+};
+
+const handleExceed = () => {};
+const handleVideoSuccess = (response, uploadFile) => {
+  if (response && response.url) {
+    ElMessage({
+      message: "首页视频上传成功！",
+      type: "success",
+    });
+    form.homeVideo =
       (process.env.VUE_APP_BASE_IMG_URL || "http://127.0.0.1:3000/uploads/") +
       response.url;
   }

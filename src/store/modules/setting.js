@@ -3,6 +3,7 @@ const defaultSetting = localStorage.getItem("baseSetting")
   : {
       bgUrl: "/img/bg.jpg",
       logo: "/img/logo.png",
+      homeVideo: "/video/homeVideo.mp4",
     };
 
 export default {
