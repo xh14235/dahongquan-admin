@@ -6,6 +6,8 @@ const api = {
   addBanner: "addBanner",
   bannerList: "bannerList",
   deleteBanner: "deleteBanner",
+  bannerInfo: "bannerInfo",
+  editBanner: "editBanner",
 };
 
 export const baseSetting = (params) => {
@@ -44,6 +46,22 @@ export const deleteBanner = (params) => {
   return request({
     url: api.deleteBanner,
     method: "DELETE",
+    params,
+  });
+};
+
+export const editBanner = (data) => {
+  return request({
+    url: api.editBanner,
+    method: "PUT",
+    data,
+  });
+};
+
+export const bannerInfo = (params) => {
+  return request({
+    url: api.bannerInfo,
+    method: "GET",
     params,
   });
 };
