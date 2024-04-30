@@ -1,7 +1,7 @@
 <template>
   <el-form inline :model="formInline">
     <el-form-item label="关键词">
-      <el-input v-model="formInline.keyword" placeholder="请输入关键词" />
+      <el-input v-model="formInline.keyword" placeholder="请输入留言者姓名" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSearch">查询</el-button>
