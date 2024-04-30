@@ -15,6 +15,7 @@ import ArticalDetail from "@/views/artical/modules/articalDetail.vue";
 import BaseSetting from "@/views/setting/index.vue";
 import Banner from "@/views/setting/banner.vue";
 import BannerForm from "@/views/setting/modules/bannerForm.vue";
+import MessageList from "@/views/message/index.vue";
 
 const baseRoutes = [
   {
@@ -146,6 +147,14 @@ const routeList = [
         component: BannerForm,
         meta: {
           title: "编辑banner图",
+          needLogin: true,
+        },
+      },
+      {
+        path: "/message/list",
+        component: MessageList,
+        meta: {
+          title: "留言列表",
           needLogin: true,
         },
       },
